@@ -32,4 +32,4 @@ In fact, we have a particular affection for food trucks. One of the great things
 Your assignment is to make it possible for our teams to do something with this food trucks data.
 
 This is a freeform assignment. You can write a web API that returns a set of food trucks. You can write a web frontend that visualizes the nearby food trucks for a given place. You can create a CLI that lets us get the names of all the taco trucks in the city. You're not limited by these ideas at all, but hopefully those are enough help spark your own creativity.
-San Francisco's food truck open dataset is located here and there is an endpoint with a CSV dump of the latest data here. We've also included a copy of the data in this repo as well.
+San Francisco's food truck open dataset is [located here](https://data.sfgov.org/Economy-and-Community/Mobile-Food-Facility-Permit/rqzj-sfat/data) and there is an endpoint with a [CSV dump of the latest data here](https://data.sfgov.org/api/views/rqzj-sfat/rows.csv). We've also included a copy of the data in this repo as well.
