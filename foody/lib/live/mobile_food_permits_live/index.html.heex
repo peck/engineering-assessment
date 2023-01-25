@@ -1,0 +1,28 @@
+<div>
+  <table>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Address Description</th>
+      <th>Address</th>
+      <th>Permit Status</th>
+      <th>Food Description</th>
+      <th>Longitude</th>
+      <th>Latitude</th>
+      <th>Hours</th>
+    </tr>
+    <%= for permit <- @permits do %>
+      <tr>
+        <td><%= permit.name %></td>
+        <td><%= permit.type %></td>
+        <td><%= permit.address_description %></td>
+        <td><%= permit.address %></td>
+        <td><%= permit.permit_status %> </td>
+        <td><%= permit.food_description %></td>
+        <td><%= permit.longitude %></td>
+        <td><%= permit.latitude %></td>
+        <td><%= permit.hours %></td>
+      </tr>
+    <% end %>
+  </table>
+</div>
