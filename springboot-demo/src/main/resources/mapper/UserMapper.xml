@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.moon.mapper.UserMapper">
+
+    <select id="findByName" resultType="com.moon.pojo.User">
+        SELECT
+            id,
+            is_deleted,
+            name,
+            age,
+            create_date
+
+        FROM user
+        WHERE NAME LIKE CONCAT('%', #{name}, '%')
+    </select>
+
+
+    <select id="findByName2" resultType="com.moon.pojo.User">
+        SELECT
+            id,
+            is_deleted,
+            name,
+            age,
+            create_date
+
+        FROM user
+        WHERE NAME = #{name}
+    </select>
+
+
+    <insert id="insert">
+        INSERT INTO user (name, age, create_date)
+        VALUES (#{name}, #{age}, #{createDate})
+    </insert>
+
+
+    <!-- <insert id="insertUser"> -->
+    <insert id="insertUser" keyProperty="id" parameterType="com.moon.pojo.User" useGeneratedKeys="true">
+        INSERT INTO user
+            (name, age, create_date)
+        VALUES
+            (#{name}, #{age}, #{createDate})
+    </insert>
+
+
+    <!-- 选择性新增用户信息  @author moon  2023/01/30  11:44 -->
+    <insert id="insertSelective" keyProperty="id" parameterType="com.moon.pojo.User" useGeneratedKeys="true">
+        insert into user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="age != null">
+                age,
+            </if>
+            <if test="createDate != null">
+                create_date,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id, jdbcType=BIGINT},
+            </if>
+            <if test="name != null">
+                #{name, jdbcType=VARCHAR},
+            </if>
+            <if test="age != null">
+                #{age, jdbcType=INTEGER},
+            </if>
+            <if test="createDate != null">
+                #{createDate, jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+
+    <insert id="deleteUser">
+        DELETE FROM user
+        WHERE name = #{name}
+    </insert>
+
+
+    <update id="updateUser" parameterType="com.moon.pojo.User">
+        UPDATE user
+        <set>
+            <if test="name != null and name != ''">
+                name = #{name, jdbcType=VARCHAR},
+            </if>
+            <if test="age != null">
+                age = #{age, jdbcType=BIGINT},
+            </if>
+            <if test="createDate != null">
+                create_date = #{createDate, jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        WHERE id = #{id, jdbcType=BIGINT}
+    </update>
+
+
+    <update id="updateBatch" parameterType="com.moon.pojo.User">
+        <foreach collection="userList" item="item" index="index" separator=";">
+            UPDATE user
+            <set>
+                <if test="item.name != null and item.name != ''">
+                    name = #{item.name},
+                </if>
+                <if test="item.age != null and item.age != ''">
+                    age = #{item.age},
+                </if>
+                <if test="item.createDate != null">
+                    create_date = #{item.createDate},
+                </if>
+            </set>
+            <where>
+                id = #{item.id}
+            </where>
+        </foreach>
+    </update>
+
+
+    <select id="selectUserByParamDTO" resultType="com.moon.vo.pojo.UserVO">
+        SELECT
+            id,
+            name,
+            age,
+            create_date
+
+        FROM user u
+        WHERE
+            1 = 1
+            <if test="paramDTO.id != null">
+                AND u.id = #{paramDTO.id, jdbcType=BIGINT}
+            </if>
+            <if test="paramDTO.name != null and paramDTO.name != ''">
+                AND u.`name` = #{paramDTO.name, jdbcType=VARCHAR}
+            </if>
+            <if test="paramDTO.nameLike != null and paramDTO.nameLike != ''">
+                AND u.`name` LIKE CONCAT('%', #{paramDTO.nameLike, jdbcType=VARCHAR}, '%')
+            </if>
+            <if test="paramDTO.nameList != null and paramDTO.nameList.size() != 0">
+                AND u.`name` IN
+                <foreach collection="paramDTO.nameList" item="item" separator="," index="index" open="(" close=")">
+                    #{item}
+                </foreach>
+            </if>
+        ORDER BY u.create_date DESC, u.id DESC
+    </select>
+
+
+</mapper>
