@@ -1,0 +1,10 @@
+# 基于Java官方镜像
+FROM openjdk
+# 将编译后的Spring Boot应用复制到镜像中
+COPY ./start/target/start-1.0.0-SNAPSHOT.jar /home/app.jar
+# 切换工作目录
+WORKDIR /home
+# 暴露端口
+EXPOSE 8080
+# 运行Spring Boot应用
+CMD ["java", "-jar", "/home/app.jar"]

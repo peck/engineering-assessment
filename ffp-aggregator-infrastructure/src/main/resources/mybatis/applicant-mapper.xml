@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ffp.demo.database.ApplicantMapper">
+    <select id="getAllValidApplicantList" resultMap="baseResult">
+       <![CDATA[
+        SELECT
+        app.applicant_name,
+        app.facility_type,
+        app.food_items,
+        app.days_hours,
+        loc.address
+        FROM
+        tb_applicant_info app
+        JOIN
+        tb_permit_info per ON app.locationid = per.locationid
+        JOIN
+        tb_location_info loc ON loc.locationid = app.locationid
+        WHERE
+        per.status != 'EXPIRED'
+        AND TRIM(IFNULL(app.food_items, '')) <> ''
+        ]]>
+    </select>
+    <resultMap id="baseResult" type="com.ffp.demo.database.dataobject.ApplicantDO">
+        <result column="locationid" property="id" jdbcType="INTEGER"/>
+        <result column="applicant_name" property="applicantName"/>
+        <result column="facility_type" property="facilityType"/>
+        <result column="food_items" property="foodItems" />
+        <result column="address" property="address"/>
+        <result column="days_hours" property="daysHours"/>
+    </resultMap>
+</mapper>

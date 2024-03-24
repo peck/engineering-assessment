@@ -1,0 +1,28 @@
+version: '3'
+services:
+  spring-boot-app:
+    build:
+      context: .
+      dockerfile: SPRING_Dockerfile
+    ports:
+      - "8080:8080"
+#    volumes:
+#      - ./start/target:/home
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-service:3306/demo?useUnicode=true&characterEncoding=UTF-8
+      SPRING_DATASOURCE_USERNAME: demo
+      SPRING_DATASOURCE_PASSWORD: demo
+    depends_on:
+      - mysql-service
+ 
+  mysql-service:
+    build:
+      context: .
+      dockerfile: MYSQL_Dockerfile
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: demo
+      MYSQL_USER: demo
+      MYSQL_PASSWORD: demo
+      MYSQL_ROOT_PASSWORD: 123456

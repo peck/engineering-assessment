@@ -1,0 +1,8 @@
+FROM mysql:5.7
+ENV MYSQL_DATABASE=demo
+ENV MYSQL_USER=demo
+ENV MYSQL_PASSWORD=demo
+EXPOSE 3306
+WORKDIR /docker-entrypoint-initdb.d
+COPY tools/demo.sql .
+CMD ["mysqld"]
