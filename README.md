@@ -1,6 +1,6 @@
 ## Demo ##
 
-本Demo使用技术栈：Python\Java\Docker
+Demo framework/language：Java\Docker\Python
 
 ## Install steps ##
 ```shell
